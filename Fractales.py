@@ -122,10 +122,11 @@ def main():
         else:
             for i in range(110,314*2):
                 x = i/100
-                a = math.cos(x)/1.5
-                b = math.sin(x)/1.5
+                a = math.cos(x)
+                b = math.sin(x)
+                plan = get_zone(max_x, max_y)
                 print_zone(julia(plan, [a,b]), axes)
-                print("c =",a,"+ i"+str(b),end='\r')
+                print("c =",a,"+ i"+str(b))
                 time.sleep(0.1)
 
         leave = input("0 to exit ")
