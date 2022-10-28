@@ -1,4 +1,5 @@
 import math
+import time
 
 ##############################################################
 # fonctions sur les nombre complexes
@@ -25,7 +26,7 @@ def print_zone(z, axe):
         z = set_axis(z)
     for l in z:
         for c in l:
-            print(c,end="")
+            print(c,end='')
         print()
 
 
@@ -85,7 +86,7 @@ def julia(zone, c): # z² + c
     x, y = get_dimensions(zone)
     for i in range(2*y+1):
         for j in range(2*x+1):
-            if z_carre_plus_c_boucle([(j-x)/20,-(i-y)/20],c):
+            if z_carre_plus_c_boucle([(j-x)/(x*0.6),-(i-y)/(y*0.8)],c):
                 zone[i][j] = '#'
     return zone
 
@@ -105,20 +106,29 @@ def mandelbrot(zone):
 def main():
     max_x = int(input("longueur : ")) // 2
     max_y = int(input("hauteur : ")) // 2
-    plan = get_zone(max_x, max_y)
     axes = input("axes ? [0=Non, 1=Oui] : ") == "1"
     leave = "1"
     while leave != "0":
-        ensemble = input("Julia ou Mandelbrot [j/m] ? ")
-        if ensemble.lower() == "j":
+        plan = get_zone(max_x, max_y)
+        ensemble = input("Julia, Mandelbrot, ou Julia Manuel [j/m/jm] ? ")
+        if ensemble.lower() == "jm":
             print("Entrez a + ib (a,b inclus dans [-0.5; 0.5]).")
             a = float(input("a="))
             b = float(input("b="))
             print_zone(julia(plan, [a,b]), axes)
-        else:
-            print_zone(mandelbrot(plan), axes)
 
-        leave = input("0 to exit")
+        elif ensemble.lower() == "m":
+            print_zone(mandelbrot(plan), axes)
+        else:
+            for i in range(110,314*2):
+                x = i/100
+                a = math.cos(x)/1.5
+                b = math.sin(x)/1.5
+                print_zone(julia(plan, [a,b]), axes)
+                print("c =",a,"+ i"+str(b),end='\r')
+                time.sleep(0.1)
+
+        leave = input("0 to exit ")
 
 
 main()
